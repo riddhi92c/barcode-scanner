@@ -19,6 +19,9 @@
                 // properly decoded qr code
                 console.log('Found QR code!', result)
                 document.getElementById('result').textContent = result.text
+                
+                // Stop the barcode reader
+                codeReader.reset();
             }
 
             if (err) {
