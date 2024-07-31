@@ -4,72 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barcode Scanner</title>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@zxing/library@latest/dist/index.min.js"></script> -->
-    <!-- <script type="text/javascript" src="https://unpkg.com/@zxing/browser@latest"></script> -->
     <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
 </head>
 <body>
-    <!-- <button id="openScanner">Open Scanner</button>
-    <input type="text" id="scanner_data" placeholder="Scanned data will appear here"> -->
-
     <video id="webcam-preview"></video>
     <p id="result"></p>
 
     <script>
-        // document.getElementById('openScanner').addEventListener('click',async function() {
-        //     const codeReader = new BrowserQRCodeReader();
 
-        //     const videoInputDevices = await ZXingBrowser.BrowserCodeReader.listVideoInputDevices();
-
-        //     // choose your media device (webcam, frontal camera, back camera, etc.)
-        //     const selectedDeviceId = videoInputDevices[0].deviceId;
-
-        //     console.log(`Started decode from camera with id ${selectedDeviceId}`);
-
-        //     const previewElem = document.querySelector('#test-area-qr-code-webcam > video');
-
-        //     // you can use the controls to stop() the scan or switchTorch() if available
-        //     const controls = await codeReader.decodeFromVideoDevice(selectedDeviceId, previewElem, (result, error, controls) => {
-        //     // use the result and error values to choose your actions
-        //     // you can also use controls API in this scope like the controls
-        //     // returned from the method.
-        //     });
-
-        //     // stops scanning after 20 seconds
-        //     setTimeout(() => controls.stop(), 20000);
-        // });
-        
-        const codeReader = new ZXing.BrowserQRCodeReader();
+        const codeReader = new ZXing.BrowserMultiFormatReader();
 
         codeReader.decodeFromVideoDevice(null, 'webcam-preview', (result, err) => {
             if (result) {
-            // properly decoded qr code
-            console.log('Found QR code!', result)
-            document.getElementById('result').textContent = result.text
+                // properly decoded qr code
+                console.log('Found QR code!', result)
+                document.getElementById('result').textContent = result.text
             }
 
             if (err) {
-            // As long as this error belongs into one of the following categories
-            // the code reader is going to continue as excepted. Any other error
-            // will stop the decoding loop.
-            //
-            // Excepted Exceptions:
-            //
-            //  - NotFoundException
-            //  - ChecksumException
-            //  - FormatException
-
-            if (err instanceof ZXing.NotFoundException) {
-                console.log('No QR code found.')
-            }
-
-            if (err instanceof ZXing.ChecksumException) {
-                console.log('A code was found, but it\'s read value was not valid.')
-            }
-
-            if (err instanceof ZXing.FormatException) {
-                console.log('A code was found, but it was in a invalid format.')
-            }
+                // As long as this error belongs into one of the following categories
+                // the code reader is going to continue as excepted. Any other error
+                // will stop the decoding loop.
+                //
+                // Excepted Exceptions:
+                //
+                //  - NotFoundException
+                //  - ChecksumException
+                //  - FormatException
+                if (err instanceof ZXing.NotFoundException) {
+                    console.log('No QR code found.')
+                }
+                if (err instanceof ZXing.ChecksumException) {
+                    console.log('A code was found, but it\'s read value was not valid.')
+                }
+                if (err instanceof ZXing.FormatException) {
+                    console.log('A code was found, but it was in a invalid format.')
+                }
             }
         })
     </script>
